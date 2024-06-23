@@ -3,7 +3,7 @@ import "./index.css";
 import { getAllUsers, startOrGetChat } from "../../firebase/service";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../contexts/authContext";
-import { ref, onChildChanged } from "firebase/database";
+import { ref, onChildAdded, onChildChanged } from "firebase/database";
 import { database } from "../../firebase/firebase";
 
 const ChatList = ({ onChatSelect }) => {
@@ -27,14 +27,24 @@ const ChatList = ({ onChatSelect }) => {
 
     useEffect(() => {
         const userRef = ref(database, `users`);
-        const unsubscribeChanged = onChildChanged(userRef, (snapshot) => {
+
+        const handleUserAdded = (snapshot) => {
+            const newUser = snapshot.val();
+            setUsers((prevUsers) => [...prevUsers, { uid: snapshot.key, ...newUser }]);
+        };
+
+        const handleUserChanged = (snapshot) => {
             const changedUser = snapshot.val();
             setUsers((prevUsers) =>
                 prevUsers.map((user) => (user.uid === snapshot.key ? { ...user, ...changedUser } : user))
             );
-        });
+        };
+
+        const unsubscribeAdded = onChildAdded(userRef, handleUserAdded);
+        const unsubscribeChanged = onChildChanged(userRef, handleUserChanged);
 
         return () => {
+            unsubscribeAdded();
             unsubscribeChanged();
         };
     }, []);

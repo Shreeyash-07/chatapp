@@ -108,10 +108,10 @@ const ChatBody = ({ chatId }) => {
           <li className={message.senderId === currentUser.uid ? `outgoing_message` : `incoming_message`} key={message.id}>
             <div className="message_content">
               {message.message}
-            </div>
-            <div className="message_info">
-              {message.senderId === currentUser.uid && getMessageStatusIcon(message)}
-              <span>{formatTimestamp(message.timestamp)}</span>
+                <div className="message_info">
+                {message.senderId === currentUser.uid && getMessageStatusIcon(message)}
+                <span>{formatTimestamp(message.timestamp)}</span>
+              </div>
             </div>
           </li>
         ))}
