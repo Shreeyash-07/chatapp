@@ -61,7 +61,9 @@ const ChatList = ({ onChatSelect }) => {
             <div className="chat_inner_container">
                 <div className="users_title">Users</div>
                 <ul className="allchatlist_container">
-                    {sortedUsers.map(user => (
+                    {sortedUsers
+                    .filter(user => user.uid !== currentUser.uid)
+                    .map(user => (
                         <li 
                             key={user.uid} 
                             onClick={() => handleChatSelect(user)}
