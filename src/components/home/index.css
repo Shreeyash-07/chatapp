@@ -1,0 +1,14 @@
+.main{
+    display: flex;
+    background: #f2f5f7;
+}
+.sidechat_main{
+    width: 25%;
+    height: 100vh;
+    /* background: #f2f5f7; */
+}
+.chatspace_main{
+    width: 75%;
+    height: 100vh;
+}
+

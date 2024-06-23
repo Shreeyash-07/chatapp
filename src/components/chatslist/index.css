@@ -1,0 +1,29 @@
+ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.chat_container{
+    width: 100%;
+    height: 100vh;
+    /* background: red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.chat_inner_container{
+    width: 95%;
+    height: 98vh;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    display: flex;
+    justify-content: center;
+}
+
+.allchatlist_container{
+    padding: 10px;
+    width: 95%;
+}

@@ -1,0 +1,45 @@
+.chat_middle_inner{
+    width: 100%;
+}
+.messages{
+    font-size: 12px;
+    margin: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap:15px;
+    list-style-type: none;
+    padding: 0;
+    /* margin: 0; */
+}
+
+.incoming_message{
+    background-color: #f1f5f9;
+    padding:5px ;
+    /* margin: 5px 0; */
+    border-radius: 5px 5px 5px 0;
+    align-self: flex-start;
+}
+
+.outgoing_message{
+    background-color: #046e8f;
+    color: #ffff;
+    padding:5px ;
+    border-radius: 5px 5px 0 5px;
+    align-self: flex-end;
+}
+
+.message_info {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 5px;
+    font-size: 0.8em;
+}
+
+.message_info span {
+    margin-left: 5px;
+}
+
+.blue_tick{
+    color: blue;
+}
