@@ -9,6 +9,7 @@ import { database } from "../../firebase/firebase";
 const ChatList = ({ onChatSelect }) => {
     const { currentUser } = useAuth();
     const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
 
     useEffect(() => {
         getAllUsers().then(users => {
@@ -19,6 +20,7 @@ const ChatList = ({ onChatSelect }) => {
     const handleChatSelect = async (user) => {
         try {
             const chatId = await startOrGetChat(currentUser.uid, user.uid);
+            setSelectedUser(user.uid);
             onChatSelect({ ...user, chatId });
         } catch (error) {
             console.error("Error starting a chat", error);
@@ -59,14 +61,26 @@ const ChatList = ({ onChatSelect }) => {
             <div className="chat_inner_container">
                 <div className="users_title">Users</div>
                 <ul className="allchatlist_container">
-                    {sortedUsers
-                        .filter(user => user.uid !== currentUser.uid)
-                        .map(user => (
-                            <li key={user.uid} onClick={() => handleChatSelect(user)}>
-                                <Chat user={user} />
-                            </li>
-                        ))}
+                    {sortedUsers.map(user => (
+                        <li 
+                            key={user.uid} 
+                            onClick={() => handleChatSelect(user)}
+                        >
+                            <Chat user={user} />
+                        </li>
+                    ))}
                 </ul>
+                <div className="currentuser_box">
+                    <div className="currentuser_box_inner">
+                        <div className="currentuser_avatar">
+                            <img className="currentuser_avatar_img" src={currentUser.photoURL} alt="User Avatar" />
+                        </div>
+                        <div className="currentuser_other_details">
+                            <div className="currentuser_username">{currentUser.displayName}</div>
+                            <div className="currentuser_status">(Me)</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );

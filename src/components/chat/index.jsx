@@ -1,5 +1,5 @@
 import "./index.css";
-const Chat = ({user}) => {
+const Chat = ({ user}) => {
     const statusClass = user.status === "online" ? "online" : user.status === "offline" ? "offline" : "away";
     return (
         <div className="chat_main_container">
