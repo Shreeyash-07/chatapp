@@ -51,7 +51,6 @@ const ChatBody = ({ chatId }) => {
     if (chatId) {
       const messagesRef = ref(database, `messages/${chatId}`);
       setMessages([]);
-      console.log("inside onchildadded")
       const unsubscribeAdded = onChildAdded(messagesRef, async (snapshot) => {
         let newMessage = snapshot.val();
         newMessage = { id: snapshot.key, ...newMessage };
@@ -64,7 +63,6 @@ const ChatBody = ({ chatId }) => {
         const changedMessage = snapshot.val();
         setMessages((prevMessages) =>
           prevMessages.map((msg) => {
-            console.log({...msg, ...changedMessage})
             return (msg.id === snapshot.key ? { ...msg, ...changedMessage } : msg)
           })
         );

@@ -15,7 +15,6 @@ const Home = () => {
     };
 
     useEffect(() => {
-        console.log(process.env.FIREBASE_API_KEY)
         const chatsListener = async () => {
             const chats = await getAllChatsForUser(currentUser.uid) || [];
             const unsubscribeFunctions = [];
@@ -25,11 +24,7 @@ const Home = () => {
                     const messagesRef = ref(database, `messages/${chatId}`);
                     const snapshot = await get(messagesRef);
                     if(snapshot.exists()){
-                        console.log(`messages/${chatId}`)
                         const unsubscribe = onChildAdded(messagesRef, (snap) => {
-                            console.log({addedHere: snap.val()})
-                            debugger;
-                            const msg = snap.val();
                             markMessagesAsDeliveredListener(snap.val(), snap.key, currentUser.uid, messagesRef);
                         });
                         unsubscribeFunctions.push(unsubscribe);

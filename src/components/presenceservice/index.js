@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/database'; // Import other Firebase services as needed
-import { ref, onDisconnect, set, update,onValue } from 'firebase/database';
-import { useAuth } from '../../contexts/authContext'; // Import your auth context or useFirebaseAuth hook // Assuming you have a hook to get current user from context
-import { database } from '../../firebase/firebase'; // Ensure you have imported your Firebase database configuration
+import 'firebase/compat/database'; 
+import { ref, onDisconnect, update,onValue } from 'firebase/database';
+import { useAuth } from '../../contexts/authContext'; 
+import { database } from '../../firebase/firebase'; 
 
 const PresenceService = () => {
-  const { currentUser } = useAuth(); // Assuming useAuth provides currentUser from your context
+  const { currentUser } = useAuth(); 
   useEffect(() => {
     const updateOnUser = () => {
       const connectedRef = ref(database, '.info/connected');
@@ -57,7 +57,7 @@ const PresenceService = () => {
     };
   }, [currentUser]);
 
-  return null; // Or render any UI component if needed
+  return null; 
 };
 
 export default PresenceService;

@@ -3,7 +3,6 @@ import { database } from "./firebase"
 
 // ----------- userService ----------- //
 export const createUser = async(user, displayName, photoURL) => {
-    console.log({user})
     try{
         await set(ref(database,`users/${user.uid}`),{
             uid: user.uid,
@@ -27,11 +26,10 @@ export const getAllUsers = async () => {
       snapshot.forEach((childSnapshot) => {
         users.push(childSnapshot.val());
       });
-      console.log("Users:", users); // Log users array after population
       return users;
     } catch (error) {
       console.error("Error fetching users:", error);
-      return []; // Return empty array if there's an error
+      return []; 
     }
 };
   
@@ -120,7 +118,6 @@ export const getAllChatMessages = async(chatId) => {
                 id:key,
                 ...messages[key]
             }))
-            console.log({chatMessages})
             return chatMessages;
         } else {
             console.log("No Messages");
@@ -131,18 +128,6 @@ export const getAllChatMessages = async(chatId) => {
         throw error;
     }
 }
-
-
-// export const markMessageDelivered = async(chatId, messageId) => {
-//     const messageRef = ref(database, `messages/${chatId}/${messageId}`);
-
-//     try {
-//         await update(messageRef, {status: "delivered"});
-//     } catch (error) {
-//         console.error("Error marking message as delivered:", error);
-//         throw error;    
-//     }
-// }
 
 export const markMessageSeen = async (chatId, messageId) => {
     const messageRef = ref(database, `messages/${chatId}/${messageId}`);
@@ -155,11 +140,9 @@ export const markMessageSeen = async (chatId, messageId) => {
   };
 
 export const getAllChatsForUser = async(userId) => {
-    console.log({userId})
     const chats = [];
     const dbRef = ref(database);
     const userChatRef = child(dbRef, `chats/${userId}`);
-    console.log({userChatRef})
     try{
         const snapshot = await get(userChatRef);
         if (snapshot.exists()){
@@ -176,30 +159,7 @@ export const getAllChatsForUser = async(userId) => {
     }
 }
 
-// export const markMessagesAsDelivered = async(chatId, userId) => {
-//     const messageRef = ref(database, `messages/${chatId}`);
-
-//     try {
-//         const snapshot = await get(messageRef);
-//         if(snapshot.exists()){
-//             const updates = {};
-//             snapshot.forEach((snap) => {
-//                 const message = snap.val();
-//                 const messageId = snap.key;
-//                 if (message.senderId !== userId && message.status === "sent" && message.status !== "seen") {
-//                     updates[`${messageId}/status`] = "delivered";
-//                 }
-//             });
-//             await update(ref(messageRef),updates);
-//         }
-//     } catch (error) {
-//         console.error("Error marking messages as delivered:", error);
-//         throw error;
-//     }
-// }
-
 export const markMessagesAsDeliveredListener = (message, key, userId, messageRef) => {
-    console.log({messagere:message})
     try {
         debugger;
       get(messageRef).then(snapshot => {
@@ -207,10 +167,7 @@ export const markMessagesAsDeliveredListener = (message, key, userId, messageRef
           if (message.status.senderId !== userId && message.status === "sent") {
             const updates = {};
             updates[`${key}/status`] = "delivered";
-            console.log({ message, key, userId, messageRef });
             update(messageRef, updates);
-          } else {
-            console.log({sender:message.senderId,userId, status:message.status })
           }
         } else {
           console.log("doesn't exist");

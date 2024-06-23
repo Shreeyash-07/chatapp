@@ -2,10 +2,15 @@ import { useEffect } from "react";
 import { doHandleRedirectResult, doSignInWithGoogle } from "../../../firebase/auth"
 import { FcGoogle } from "react-icons/fc";
 import "./index.css"
+import { Navigate } from "react-router-dom";
+
 
 const SignInWithGoogleButton = () => {
-    const handleSignIn = async() => {
-        await doSignInWithGoogle();
+    const handleSignIn = () => {
+        doSignInWithGoogle().catch(err=>{
+            console.log("User rejected login")
+            return (<Navigate to={'/'} replace={true}/>) 
+        });
     }
 
     useEffect(()=>{
