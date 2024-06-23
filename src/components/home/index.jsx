@@ -44,7 +44,6 @@ const Home = () => {
     }, [currentUser]);
     return (
         <div className="main">
-            {process.env.REACT_APP_NAME_ME}
             {currentUser && <PresenceService/>}
             <div className="sidechat_main"><ChatList onChatSelect={handleChatSelect}/></div>
             <div className="chatspace_main">{openedChat ? <ChatSpace user={openedChat}/>:<DefaultPage/>}</div>
