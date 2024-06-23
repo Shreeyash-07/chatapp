@@ -53,21 +53,3 @@ const Home = () => {
 }
 
 export default Home;
-
-
-    // useEffect(()=>{
-    //     const fetchChatsAndMarksMessages = async() => {
-    //         try{
-    //             if(currentUser){
-    //                 const chats = await getAllChatsForUser(currentUser.uid);
-    //                 console.log({chats})
-    //                 chats.forEach(async(chat)=>{
-    //                     await markMessagesAsDelivered(chat.chatId, currentUser.uid)
-    //                 })
-    //             }
-    //         } catch (error) {
-    //             console.error("Error fetching chats or marking messages:", error);
-    //         }
-    //     };
-    //     fetchChatsAndMarksMessages();
-    // },[currentUser])
