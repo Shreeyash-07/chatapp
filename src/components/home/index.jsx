@@ -7,6 +7,7 @@ import { getAllChatsForUser, markMessagesAsDeliveredListener } from "../../fireb
 import { get, onChildAdded,ref } from "firebase/database";
 import { database } from "../../firebase/firebase";
 import PresenceService from "../presenceservice";
+import DefaultPage from "../defaultpage";
 const Home = () => {
     const [openedChat, setOpenedChat] = useState(null);
     const {currentUser} = useAuth();
@@ -46,7 +47,7 @@ const Home = () => {
             {process.env.REACT_APP_NAME_ME}
             {currentUser && <PresenceService/>}
             <div className="sidechat_main"><ChatList onChatSelect={handleChatSelect}/></div>
-            <div className="chatspace_main">{openedChat && <ChatSpace user={openedChat}/>}</div>
+            <div className="chatspace_main">{openedChat ? <ChatSpace user={openedChat}/>:<DefaultPage/>}</div>
         </div>
 
     )

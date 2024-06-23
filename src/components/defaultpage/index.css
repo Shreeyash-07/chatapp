@@ -1,0 +1,13 @@
+.chatspace_inner_container_default{
+    width: 98%;
+    height: 98vh;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    /* align-items: center;  */
+}
