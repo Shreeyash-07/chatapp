@@ -1,5 +1,6 @@
 .chat_middle_inner{
     width: 100%;
+    padding: 30px;
 }
 .messages{
     font-size: 12px;

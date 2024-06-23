@@ -1,5 +1,5 @@
 import { FaCheck, FaCheckDouble } from "react-icons/fa6";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ref, onChildAdded, onChildChanged } from "firebase/database";
 import { useAuth } from "../../contexts/authContext";
 import { database } from "../../firebase/firebase";
@@ -9,21 +9,22 @@ import "./index.css";
 const ChatBody = ({ chatId }) => {
   const { currentUser } = useAuth();
   const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
 
-  
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
     const handleNewMessage = async (message, messageId) => {
-        debugger;
-        if (message.status === "delivered" && message.senderId !== currentUser.uid) {
-          await markMessageSeen(chatId, messageId);
-          return { ...message, status: "seen" };
-        }
-        return message;
-      };
+      if (message.status === "delivered" && message.senderId !== currentUser.uid) {
+        await markMessageSeen(chatId, messageId);
+        return { ...message, status: "seen" };
+      }
+      return message;
+    };
 
     const fetchMessages = async () => {
-        debugger;
       const chatMessages = await getAllChatMessages(chatId);
 
       const updatedMessages = await Promise.all(
@@ -32,6 +33,7 @@ const ChatBody = ({ chatId }) => {
         })
       );
       setMessages(updatedMessages);
+      scrollToBottom();
     };
 
     if (chatId) {
@@ -41,30 +43,28 @@ const ChatBody = ({ chatId }) => {
 
   useEffect(() => {
     const handleNewMessage = async (message, messageId) => {
-        // Check if message status is "delivered" and mark it as "seen"
-        if ((message.status === "delivered" || message.status === "sent") && message.senderId !== currentUser.uid) { // <-- Change made here
-          await markMessageSeen(chatId, messageId);
-          return { ...message, status: "seen" };
-        }
-        return message;
-      };
+      if ((message.status === "delivered" || message.status === "sent") && message.senderId !== currentUser.uid) {
+        await markMessageSeen(chatId, messageId);
+        return { ...message, status: "seen" };
+      }
+      return message;
+    };
+
     if (chatId) {
       const messagesRef = ref(database, `messages/${chatId}`);
       setMessages([]);
       const unsubscribeAdded = onChildAdded(messagesRef, async (snapshot) => {
         let newMessage = snapshot.val();
         newMessage = { id: snapshot.key, ...newMessage };
-        newMessage = await handleNewMessage(newMessage, snapshot.key); // <-- Change made here
+        newMessage = await handleNewMessage(newMessage, snapshot.key);
         setMessages((prevMessages) => [...prevMessages, newMessage]);
+        scrollToBottom();
       });
 
       const unsubscribeChanged = onChildChanged(messagesRef, (snapshot) => {
-        console.log({gotsomechange:snapshot.val()})
         const changedMessage = snapshot.val();
         setMessages((prevMessages) =>
-          prevMessages.map((msg) => {
-            return (msg.id === snapshot.key ? { ...msg, ...changedMessage } : msg)
-          })
+          prevMessages.map((msg) => (msg.id === snapshot.key ? { ...msg, ...changedMessage } : msg))
         );
       });
 
@@ -116,6 +116,7 @@ const ChatBody = ({ chatId }) => {
           </li>
         ))}
       </ul>
+      <div ref={messagesEndRef} />
     </div>
   );
 };
