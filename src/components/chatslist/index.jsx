@@ -47,6 +47,7 @@ const ChatList = ({ onChatSelect }) => {
     return (
         <div className="chat_container">
             <div className="chat_inner_container">
+                <div className="users_title">Users</div>
                 <ul className="allchatlist_container">
                     {sortedUsers
                         .filter(user => user.uid !== currentUser.uid)
