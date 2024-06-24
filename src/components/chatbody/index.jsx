@@ -94,7 +94,7 @@ const ChatBody = ({ chatId }) => {
         case "delivered":
           return <FaCheckDouble />;
         case "seen":
-          return <FaCheckDouble style={{ color: "blue" }} />;
+          return <FaCheckDouble style={{ color: "#41b2fe" }} />;
         default:
           return null;
       }
