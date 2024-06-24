@@ -8,7 +8,6 @@ import { Navigate } from "react-router-dom";
 const SignInWithGoogleButton = () => {
     const handleSignIn = () => {
         doSignInWithGoogle().catch(err=>{
-            console.log("User rejected login")
             return (<Navigate to={'/'} replace={true}/>) 
         });
     }
