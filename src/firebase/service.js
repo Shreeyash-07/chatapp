@@ -161,7 +161,6 @@ export const getAllChatsForUser = async(userId) => {
 
 export const markMessagesAsDeliveredListener = (message, key, userId, messageRef) => {
     try {
-        debugger;
       get(messageRef).then(snapshot => {
         if (snapshot.exists()) {
           if (message.status.senderId !== userId && message.status === "sent") {
